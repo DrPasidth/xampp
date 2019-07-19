@@ -1,0 +1,125 @@
+Just follow the command below to install xampp on redhat/centos
+
+Step 1: Install xampp
+open SSH to link with your cloud engine
+
+# sudo -s
+# yum update -y
+# yum install zip -y
+# yum install unzip -y
+# yum install wget -y
+# wget http://downloads.sourceforge.net/project/xampp/XAMPP%20Linux/1.8.3/xampp-linux-x64-1.8.3-3-installer.run 
+# chmod +x xampp-linux-x64-1.8.3-3-installer.run
+# ./xampp-linux-x64-1.8.3-3-installer.run 
+
+----------------------------------------------------------------------------
+Welcome to the XAMPP Setup Wizard.
+----------------------------------------------------------------------------
+Select the components you want to install; clear the components you do not want 
+to install. Click Next when you are ready to continue.
+
+XAMPP Core Files : Y (Cannot be edited)
+XAMPP Developer Files [Y/n] :Y
+Is the selection above correct? [Y/n]: Y
+----------------------------------------------------------------------------
+Installation Directory
+XAMPP will be installed to /opt/lampp
+Press [Enter] to continue :
+----------------------------------------------------------------------------
+Setup is now ready to begin installing XAMPP on your computer.
+Do you want to continue? [Y/n]: Y
+----------------------------------------------------------------------------
+Please wait while Setup installs XAMPP on your computer.
+
+ Installing
+ 0% ______________ 50% ______________ 100%
+ #########################################
+----------------------------------------------------------------------------
+Setup has finished installing XAMPP on your computer.
+
+Step 2: Edit configuration files
+open httpd-xampp.conf to grant for accessing xampp
+
+# vi /opt/lampp/etc/extra/httpd-xampp.conf
+
+edit to below
+press Insert button first
+
+<LocationMatch "^/(?i:(?:xampp|security|licenses|phpmyadmin|webalizer|server-status|server-info))">
+    # Require local
+    AllowOverride AuthConfig Limit
+    Order allow,deny
+    Allow from all
+    Require all granted	
+    ErrorDocument 403 /error/XAMPP_FORBIDDEN.html.var
+</LocationMatch>
+
+when done press esc to exit insert mode and save and quit with :command 
+:wq = save and quit
+
+Step 3: test program
+
+# /opt/lampp/lampp restart
+
+Open phpmyadmin
+To open phpmyadmin of XAMPP,simply type URL of server with /phpmyadmin in address bar
+Example : Replace 192.168.56.102 with your XAMPP server ip address(run ifconfig command to get your server ip)
+http://192.168.56.102/phpmyadmin
+
+Step 4: change local time
+//ask for date in system
+
+# date
+
+// change zone time
+# cp /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
+
+enter y to confirm
+
+step 5: auto start
+# open /etc/rc.local
+
+edit rc.local file
+# vi /etc/rc.local
+
+add one command line at the last line
+press Insert then copy below and paste next to the last line
+
+/opt/lampp/lampp start
+
+press esc and :wq enter
+
+step 6. change mysql time zone
+# vi /etc/my.cnf
+
+press Insert then
+copy below and paste into [mysqld] paragraph
+
+default-time-zone = '+07:00'
+
+Step 7. restart mysql again
+
+# /opt/lampp/lampp restart
+
+
+Step 8. set password for phpmyadmin and database
+1. edit config.inc.php
+
+# vi /opt/lampp/phpmyadmin/config.inc.php
+find the below paragraph.
+
+/* Authentication type */
+$cfg['Servers'][$i]['auth_type'] = 'config';
+$cfg['Servers'][$i]['user'] = 'root';
+$cfg['Servers'][$i]['password'] = '';
+
+change to new password 
+/* Authentication type */
+$cfg['Servers'][$i]['auth_type'] = 'cookie';
+$cfg['Servers'][$i]['user'] = 'root';
+$cfg['Servers'][$i]['password'] = 'new password';
+
+2. restart mysql again
+# /opt/lampp/lampp restart
+
+3. Goto browser and log in.
