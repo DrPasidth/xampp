@@ -1,8 +1,7 @@
 Just follow the command below to install xampp on redhat/centos
 
-Step 1: Install xampp
-open SSH to link with your cloud engine
-
+Install xampp on redhat/centos 7
+1. prepare system
 # sudo -s
 # yum update -y
 # yum install zip -y
@@ -37,13 +36,12 @@ Please wait while Setup installs XAMPP on your computer.
 ----------------------------------------------------------------------------
 Setup has finished installing XAMPP on your computer.
 
-Step 2: Edit configuration files
-open httpd-xampp.conf to grant for accessing xampp
-
+2. edit config
 # vi /opt/lampp/etc/extra/httpd-xampp.conf
 
-edit to below
 press Insert button first
+find the head line <LocationMatch ....  and then edit to below
+
 
 <LocationMatch "^/(?i:(?:xampp|security|licenses|phpmyadmin|webalizer|server-status|server-info))">
     # Require local
@@ -54,21 +52,14 @@ press Insert button first
     ErrorDocument 403 /error/XAMPP_FORBIDDEN.html.var
 </LocationMatch>
 
-when done press esc to exit insert mode and save and quit with :command 
-:wq = save and quit
+press esc to exit insert mode and save and quit with :command 
+:wq then enter
 
-Step 3: test program
 
-# /opt/lampp/lampp restart
-
-Open phpmyadmin
-To open phpmyadmin of XAMPP,simply type URL of server with /phpmyadmin in address bar
-Example : Replace 192.168.56.102 with your XAMPP server ip address(run ifconfig command to get your server ip)
-http://192.168.56.102/phpmyadmin
-
-Step 4: change local time
+step 3: change local time
 //ask for date in system
 
+step 4.
 # date
 
 // change zone time
@@ -79,7 +70,7 @@ enter y to confirm
 step 5: auto start
 # open /etc/rc.local
 
-edit rc.local file
+step 6.
 # vi /etc/rc.local
 
 add one command line at the last line
@@ -89,37 +80,61 @@ press Insert then copy below and paste next to the last line
 
 press esc and :wq enter
 
-step 6. change mysql time zone
+step 7. change mysql time zone
 # vi /etc/my.cnf
 
-press Insert then
+press Insert
 copy below and paste into [mysqld] paragraph
-
+[mysqld]
 default-time-zone = '+07:00'
-
-Step 7. restart mysql again
-
-# /opt/lampp/lampp restart
+.....
 
 
-Step 8. set password for phpmyadmin and database
-1. edit config.inc.php
+step 8 set password
+
+edit config.inc.php
 
 # vi /opt/lampp/phpmyadmin/config.inc.php
-find the below paragraph.
+
+press insert and find below
 
 /* Authentication type */
 $cfg['Servers'][$i]['auth_type'] = 'config';
 $cfg['Servers'][$i]['user'] = 'root';
 $cfg['Servers'][$i]['password'] = '';
 
-change to new password 
+change to
+
 /* Authentication type */
 $cfg['Servers'][$i]['auth_type'] = 'cookie';
 $cfg['Servers'][$i]['user'] = 'root';
-$cfg['Servers'][$i]['password'] = 'new password';
+$cfg['Servers'][$i]['password'] = 'admin@2019';
 
-2. restart mysql again
+step 9. restart mysql again
 # /opt/lampp/lampp restart
 
-3. Goto browser and log in.
+Step 10: Open phpmyadmin
+
+To open phpmyadmin of XAMPP,simply type URL of server with /phpmyadmin in address bar
+http://ipaddress/phpmyadmin
+
+login: (first time login do not put password
+user: root
+password:
+enter
+
+Step 11. goto Users look for user root
+root localhost .......... Edit Privileges ... Export
+
+click at Edit Privileges
+Change password to "admin@2019"
+then click Go
+
+Step 12. Logout from phpmyadmin
+
+Step 13. Login with new password
+
+
+
+
+
