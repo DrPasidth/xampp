@@ -1,0 +1,5 @@
+Q&A sesseion form phpmyadmin and database accessibility
+Q1: cannot access to database from outside
+A1: Google engine may not open firewall for port 80
+    Goto google engine, find VPC network and select firewall rules
+    Find or create Firewall rules Target at http-server add protocals/ports for tcp:80;tcp:3000
